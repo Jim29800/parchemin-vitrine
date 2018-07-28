@@ -9,7 +9,7 @@ use App\Entity\User;
 class LoginController extends Controller
 {
     /**
-     * @Route("/login", name="login")
+     * @Route("/api/login", name="login", methods="POST")
      */
     public function index(Request $request)
     {
