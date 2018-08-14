@@ -61,6 +61,12 @@ class Product
      */
     private $tags;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="products")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -177,6 +183,18 @@ class Product
         if ($this->tags->contains($tag)) {
             $this->tags->removeElement($tag);
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
