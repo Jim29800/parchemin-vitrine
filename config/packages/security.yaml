@@ -1,60 +1,4 @@
 security:
-# Numero 1 : DE BASE
-    # encoders:
-    #     App\Entity\User:
-    #         algorithm: bcrypt
-    #     # Symfony\Component\Security\Core\User\User: plaintext
-    # # ...
-
-    # providers:
-    #     our_db_provider:
-    #         entity:
-    #             class: App\Entity\User
-    #             property: username
-    #             # if you're using multiple entity managers
-    #             # manager_name: customer
-    #     # api_key_user_provider:
-    #     #     id: App\Security\ApiKeyUserProvider
-
-    # firewalls:
-    #     main:
-    #         pattern:    ^/api/user
-    #         http_basic: ~
-    #         provider: our_db_provider
-    #         # stateless: true
-    #         # simple_preauth:
-    #         #     authenticator: App\Security\ApiKeyAuthenticator
-    #         # remote_user:
-    #         #     provider: api_key_user_provider
-
-# NUMERO 2 : API
-    # providers:
-    #     our_db_provider:
-    #         entity:
-    #             class: App\Entity\User
-    #             property: username
-
-    # firewalls:
-    #     login:
-    #         provider: our_db_provider
-    #         pattern:  ^/login
-    #         stateless: true
-    #         anonymous: true
-    #         json_login:
-    #             check_path: /login_check
-    #             username_path: username
-    #             password_path: password
-    #             success_handler: lexik_jwt_authentication.handler.authentication_success
-    #             failure_handler: lexik_jwt_authentication.handler.authentication_failure
-
-    #     api:
-    #         pattern:   ^/api/user
-    #         stateless: true
-    #         guard:
-    #             authenticators:
-    #                 - lexik_jwt_authentication.jwt_token_authenticator
-                    
-# NUMERO 3
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: ROLE_ADMIN
@@ -89,10 +33,10 @@ security:
         #     stateless: true
         #     anonymous: true
 
-        api:
-            pattern:  ^/api/user
+        main:
+            # pattern:  ^/api/user
             stateless: true
-            anonymous: false
+            anonymous: true
             provider: entity_provider
             guard:
                 authenticators:
@@ -101,4 +45,4 @@ security:
     access_control:
         # - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         # - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/user, roles: IS_AUTHENTICATED_FULLY }
+        # - { path: ^/api/user, roles: IS_AUTHENTICATED_FULLY }

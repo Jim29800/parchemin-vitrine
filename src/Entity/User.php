@@ -9,7 +9,18 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     attributes={"access_control"="is_granted('ROLE_ADMIN')"},
+ *     collectionOperations={
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Non autorisé"},
+ *         "post"={"access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Non autorisé"}
+ *     },
+ *     itemOperations={
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Non autorisé"},
+ *         "put"={"access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Non autorisé"},
+ *         "delete"={"access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Non autorisé"}
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields="username", message="Le nom d'utilisateur est déjà utilisé.")
  * use Symfony\Component\Security\Core\User\UserInterface;
