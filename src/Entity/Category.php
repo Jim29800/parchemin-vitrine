@@ -11,12 +11,12 @@ use Doctrine\ORM\Mapping as ORM;
  * @ApiResource(
  *     collectionOperations={
  *         "get",
- *         "post"={"access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Non autorisé"}
+ *         "post"={"access_control"="is_granted('ROLE_SUPER_ADMIN')", "access_control_message"="Non autorisé"}
  *     },
  *     itemOperations={
  *         "get",
- *         "put"={"access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Non autorisé"},
- *         "delete"={"access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Non autorisé"}
+ *         "put"={"access_control"="is_granted('ROLE_SUPER_ADMIN')", "access_control_message"="Non autorisé"},
+ *         "delete"={"access_control"="is_granted('ROLE_SUPER_ADMIN')", "access_control_message"="Non autorisé"}
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")

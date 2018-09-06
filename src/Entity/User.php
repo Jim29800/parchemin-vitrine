@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -10,15 +12,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ApiResource(
- *     attributes={"access_control"="is_granted('ROLE_ADMIN')"},
+ *     attributes={"access_control"="is_granted('ROLE_SUPER_ADMIN')"},
  *     collectionOperations={
- *         "get"={"access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Non autorisé"},
- *         "post"={"access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Non autorisé"}
+ *         "get"={"access_control"="is_granted('ROLE_SUPER_ADMIN')", "access_control_message"="Non autorisé"},
+ *         "post"={"access_control"="is_granted('ROLE_SUPER_ADMIN')", "access_control_message"="Non autorisé"}
  *     },
  *     itemOperations={
- *         "get"={"access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Non autorisé"},
- *         "put"={"access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Non autorisé"},
- *         "delete"={"access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Non autorisé"}
+ *         "get"={"access_control"="is_granted('ROLE_SUPER_ADMIN')", "access_control_message"="Non autorisé"},
+ *         "put"={"access_control"="is_granted('ROLE_SUPER_ADMIN')", "access_control_message"="Non autorisé"},
+ *         "delete"={"access_control"="is_granted('ROLE_SUPER_ADMIN')", "access_control_message"="Non autorisé"}
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -67,6 +69,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->isActive = true;
+        $this->products = new ArrayCollection();
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid('', true));
     }
@@ -75,6 +78,11 @@ class User implements UserInterface
      * @ORM\Column(type="array")
      */
     private $roles;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="user")
+     */
+    private $products;
 
     public function getUsername()
     {
@@ -167,5 +175,36 @@ class User implements UserInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
+            // set the owning side to null (unless already changed)
+            if ($product->getUser() === $this) {
+                $product->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

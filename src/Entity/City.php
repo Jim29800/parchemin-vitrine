@@ -8,7 +8,17 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *         "get",
+ *         "post"={"access_control"="is_granted('ROLE_SUPER_ADMIN')", "access_control_message"="Non autorisé"}
+ *     },
+ *     itemOperations={
+ *         "get",
+ *         "put"={"access_control"="is_granted('ROLE_SUPER_ADMIN')", "access_control_message"="Non autorisé"},
+ *         "delete"={"access_control"="is_granted('ROLE_SUPER_ADMIN')", "access_control_message"="Non autorisé"}
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\CityRepository")
  */
 class City
