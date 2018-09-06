@@ -28,6 +28,14 @@ security:
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
                 require_previous_session: false
 
+        main:
+            pattern:   ^/
+            stateless: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+            provider: entity_provider
+
         # register:
         #     pattern:  ^/register
         #     stateless: true
